@@ -1,0 +1,27 @@
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+
+  web:
+    build: .
+    volumes:
+      - ./app:/var/www/html/
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
+
+  test:
+    image: node:18
+    working_dir: /tests
+    volumes:
+      - ./tests:/tests
+    depends_on:
+      - web
+

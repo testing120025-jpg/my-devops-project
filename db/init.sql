@@ -1,0 +1,12 @@
+CREATE DATABASE IF NOT EXISTS demo;
+USE demo;
+
+CREATE TABLE IF NOT EXISTS message (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  text VARCHAR(255) NOT NULL
+);
+
+INSERT INTO message (text)
+SELECT 'Hello world' FROM DUAL
+WHERE NOT EXISTS (SELECT 1 FROM message WHERE text = 'Hello world');
+
