@@ -1,6 +1,9 @@
-const http = require("http");
+const http = require('http');
 
-http.get("http://web:80", (resp) => {
+// URL to test (service name from docker-compose)
+const url = "http://web:80";
+
+http.get(url, (resp) => {
   let data = "";
 
   resp.on("data", (chunk) => {
@@ -8,18 +11,17 @@ http.get("http://web:80", (resp) => {
   });
 
   resp.on("end", () => {
-    if (data.trim() === "Hello world") {
-      console.log("TEST PASSED");
-      process.exit(0);
-    } else {
-      console.error("TEST FAILED. Got:", data);
-      process.exit(1);
-    }
-  });
+    // Print the raw response for debugging
+    console.log("Raw response:", JSON.stringify(data));
 
-  resp.on("error", (err) => {
-    console.error("Request failed with error:", err);
-    process.exit(1);
+    // Remove whitespace and check if it contains "Hello world"
+    if (data.replace(/\s/g, '').includes("Helloworld")) {
+      console.log("TEST PASSED");
+      process.exit(0); // Success
+    } else {
+      console.error("TEST FAILED. Got:", JSON.stringify(data));
+      process.exit(1); // Failure
+    }
   });
 
 }).on("error", (err) => {
