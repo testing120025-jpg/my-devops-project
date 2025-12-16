@@ -7,6 +7,6 @@ CREATE TABLE IF NOT EXISTS message (
 );
 
 INSERT INTO message (text)
-SELECT 'Hello world' FROM DUAL
-WHERE NOT EXISTS (SELECT 1 FROM message WHERE text = 'Hello world');
+SELECT 'Hello world'
+WHERE NOT EXISTS (SELECT 1 FROM message);
 
