@@ -3,6 +3,7 @@ services:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: demo
     volumes:
       - ./db:/docker-entrypoint-initdb.d
     ports:
@@ -24,4 +25,4 @@ services:
       - ./tests:/tests
     depends_on:
       - web
-
+    command: ["sh", "-c", "npm install && node /tests/test.js"]
